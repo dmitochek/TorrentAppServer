@@ -15,18 +15,48 @@ export class Rutor
     {
         try
         {
-            console.log("here")
             const { data } = await axios.get(`${RUTOR_URL}/search/${this.search}`);
-            console.log(data);
             const root = parse(data);
-            let arr = root.querySelectorAll(".tum, .gai");
+            let arr = [...root.querySelectorAll(".tum, .gai")];
+            let answer = [];
+            for (const tr of arr)
+            {
+                const childs = tr.childNodes;
+                const date = childs[0].textContent;
 
+                const name = childs[1].textContent.replace(/\n/g, '');
+                let tmp = childs[1].childNodes;
+                const file_link = tmp[0].rawAttributes.href.substring(2);
 
+                const isNumeric = n => !!Number(n);
+                let size = childs[3].textContent;
+                if (isNumeric(size))
+                {
+                    size = childs[5].textContent;
+                }
+
+                const elem = {
+                    date: date,
+                    name: name,
+                    file_link: file_link,
+                    size: size,
+                    error: false
+                };
+                answer.push(elem);
+            }
+
+            return answer;
+            //TODO check list
 
         } catch (error)
         {
-            console.error(error);
+            return [{
+                date: null,
+                name: error,
+                file_link: null,
+                size: null,
+                error: true
+            }];
         }
-        return [{ title: "Success!", link: "url" }];
     }
 }

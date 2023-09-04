@@ -4,8 +4,11 @@ import { Rutor } from './rutor.js';
 
 const typeDefs = `
   type Media {
-    title: String
-    link: String
+    date: String
+    name: String
+    file_link: String
+    size: String
+    error: String
   }
 
   type Query {
@@ -19,7 +22,6 @@ const resolvers = {
   Query: {
     getfilm: (_, { search }) =>
     {
-      console.log(search);
       let rutor = new Rutor(search);
       return rutor.execute();
     },
