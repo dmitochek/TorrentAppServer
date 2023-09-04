@@ -1,0 +1,19 @@
+{
+  "name": "torrentclient",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.9.3",
+    "axios": "^1.5.0",
+    "graphql": "^16.8.0",
+    "node-html-parser": "^6.1.6"
+  }
+}
