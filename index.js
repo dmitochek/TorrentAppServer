@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { Rutor } from './rutor.js';
 import { LoadRutor } from './load.js';
+import {InitDownloadingServer} from "./createDownloadingserver.js"
 
 const typeDefs = `
   type Media {
@@ -45,6 +46,14 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [
+    {
+      async serverWillStart()
+      {
+        InitDownloadingServer();
+      }
+    }
+  ]
 });
 
 
