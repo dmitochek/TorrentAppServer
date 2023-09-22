@@ -32,11 +32,10 @@ const resolvers = {
       let rutor = new Rutor(search);
       return rutor.execute();
     },
-    downloadtorrent: (_, {link}) =>
+    downloadtorrent: async(_, {link}) =>
     {
       let loadrutor = new LoadRutor(`http://${link}`);
-      loadrutor.load();
-      // localhost:3000/download/674697.torrent
+      await loadrutor.load();
       return "http://10.0.2.2:3000/download/" + link.substring(link.lastIndexOf("/") + 1) + ".torrent";
     },
   },
@@ -62,6 +61,3 @@ const { url } = await startStandaloneServer(server, {
 });
 
 console.log(`🚀  Server ready at: ${url}`);
-
-//let loadrutor = new LoadRutor("http://d.rutor.info/download/942405");
-//await loadrutor.load();
