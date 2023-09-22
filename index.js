@@ -19,7 +19,7 @@ const typeDefs = `
 
   type Query {
     getfilm(search: String!): [Media]
-    downloadtorrent(link: String!): Boolean
+    downloadtorrent(link: String!): String
   }
 `;
 
@@ -36,8 +36,8 @@ const resolvers = {
     {
       let loadrutor = new LoadRutor(`http://${link}`);
       loadrutor.load();
-
-      return true;
+      // localhost:3000/download/674697.torrent
+      return "http://10.0.2.2:3000/download/" + link.substring(link.lastIndexOf("/") + 1) + ".torrent";
     },
   },
 };
