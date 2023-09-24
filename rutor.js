@@ -6,16 +6,24 @@ import { parse } from 'node-html-parser';
 
 export class Rutor
 {
-    constructor(search)
+    constructor(search, category)
     {
         this.search = search;
+        this.category = category;
     }
 
     async execute()
     {
         try
-        {
-            const { data } = await axios.get(`${RUTOR_URL}/search/${this.search}`);
+        {   
+            let path;
+            if (this.category == null)
+                path = `${RUTOR_URL}/search/${this.search}`;
+            else
+                path = `${RUTOR_URL}/browse/0/${this.category}/0/2`;
+            
+            const { data } = await axios.get(path);
+            
             const root = parse(data);
             let arr = [...root.querySelectorAll(".tum, .gai")];
             let answer = [];
@@ -34,13 +42,19 @@ export class Rutor
                 {
                     size = childs[5].textContent;
                 }
+                const seeds = tr.lastChild;
+                
+                const regex = /\d+/g;
+                let matches = seeds.textContent.trim().match(regex);
 
                 const elem = {
                     date: date,
                     name: name,
                     file_link: file_link,
                     size: size,
-                    error: false
+                    error: false,
+                    seeders: Number(matches[0]),
+                    lichers: Number(matches[1]),
                 };
                 answer.push(elem);
             }
