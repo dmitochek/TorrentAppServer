@@ -2,7 +2,8 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { Rutor } from './rutor.js';
 import { LoadRutor } from './load.js';
-import {InitDownloadingServer} from "./createDownloadingserver.js"
+import { InitDownloadingServer } from "./createDownloadingserver.js";
+import fs from 'fs';
 
 const typeDefs = `
   type Media {
@@ -35,13 +36,13 @@ const resolvers = {
       let rutor = new Rutor(search, null);
       return rutor.execute();
     },
-    downloadtorrent: async(_, {link}) =>
+    downloadtorrent: async (_, { link }) =>
     {
       let loadrutor = new LoadRutor(`http://${link}`);
       await loadrutor.load();
       return "http://10.0.2.2:3000/download/" + link.substring(link.lastIndexOf("/") + 1) + ".torrent";
     },
-    getcategoryfilms:  (_, { category }) =>
+    getcategoryfilms: (_, { category }) =>
     {
       let rutor = new Rutor(null, category);
       return rutor.execute();
