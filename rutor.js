@@ -1,4 +1,3 @@
-//const axios = require('axios').default;
 import axios from 'axios';
 const RUTOR_URL = "http://rutor.info/";
 import { parse } from 'node-html-parser';
