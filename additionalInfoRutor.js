@@ -15,10 +15,17 @@ export class AdditionalInfoRutor
         try
         {
             const torrentlink = RUTOR_URL + this.link.slice(this.link.lastIndexOf("/") + 1);
-            const { data } = await axios.get(torrentlink);
+            let { data } = await axios.get(torrentlink);
+
+            let firstOcc = data.indexOf('<table id="details">');
+            data = data.slice(firstOcc);
+            let lastOcc = data.indexOf('</table>');
+            data = data.slice(0, lastOcc + 8);
+
             let root = parse(data);
             let info = root.getElementById("details");
-            let res = info.textContent;
+            //let res = info.textContent;
+            let res = root.toString();
 
             let imgs = [...info.getElementsByTagName("img")]
                 .filter(e => !e.getAttribute('src').includes("cdnbunny.org"))
