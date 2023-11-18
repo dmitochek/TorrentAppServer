@@ -17,12 +17,18 @@ export class AdditionalInfoRutor
             const torrentlink = RUTOR_URL + this.link.slice(this.link.lastIndexOf("/") + 1);
             let { data } = await axios.get(torrentlink);
 
+            let root = parse(data);
+            let downloadElem = root.getElementById("download");
+            //console.log(downloadElem);
+            let magnet = downloadElem.childNodes[1];
+            const magnetLink = magnet.getAttribute("href");
+
             let firstOcc = data.indexOf('<table id="details">');
             data = data.slice(firstOcc);
             let lastOcc = data.indexOf('</table>');
             data = data.slice(0, lastOcc + 8);
 
-            let root = parse(data);
+            root = parse(data);
             let info = root.getElementById("details");
             //let res = info.textContent;
             let res = root.toString();
@@ -32,11 +38,11 @@ export class AdditionalInfoRutor
                 .map(img => img.getAttribute('src'));
 
 
-            return { data: res, imgs: imgs };
+            return { data: res, imgs: imgs, magnet: magnetLink };
 
         } catch (error)
         {
-            return { data: error, imgs: null };
+            return { data: error, imgs: null, magnet: null };
         }
     }
 }

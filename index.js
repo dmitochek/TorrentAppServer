@@ -24,6 +24,7 @@ const typeDefs = `
   type RutorMoreInfo {
     data: String
     imgs: [String]
+    magnet: String
   }
 
   type Query {
